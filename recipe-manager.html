@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-title">Recipes</div>
+            <!-- Back button - hidden by default, shows on other pages -->
+            <button id="backButton" class="back-button" style="display: none;">Back to List</button>
+        </div>
+
+        <div class="content">
+            <!-- VIEW 1: RECIPE LIST (Home page) -->
+            <div id="listView">
+                <!-- Add Recipe Button -->
+                <button id="showAddBtn" class="add-recipe-button">+ Add Recipe</button>
+                
+                <!-- Recipe Cards Grid -->
+                <div id="recipeGrid" class="recipe-grid">
+                    <!-- JavaScript will add recipe cards here -->
+                </div>
+            </div>
+
+            <!-- VIEW 2: ADD RECIPE FORM -->
+            <div id="addView" style="display: none;">
+                <h2 class="page-title">Add New Recipe</h2>
+                
+                <!-- Error message - hidden until needed -->
+                <div id="errorBox" class="error-message" style="display: none;"></div>
+
+                <!-- Recipe Name (required) -->
+                <div class="form-group">
+                    <label class="form-label">Recipe Name: <span class="required">*</span></label>
+                    <input type="text" id="nameInput" class="form-input" placeholder="Enter recipe name...">
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="form-group">
+                    <label class="form-label">Category:</label>
+                    <select id="categorySelect" class="form-select">
+                        <option>Breakfast</option>
+                        <option>Lunch</option>
+                        <option>Dinner</option>
+                        <option>Dessert</option>
+                        <option>Snack</option>
+                    </select>
+                </div>
+
+                <!-- Ingredients (required) -->
+                <div class="form-group">
+                    <label class="form-label">Ingredients: <span class="required">*</span></label>
+                    <textarea id="ingredientsInput" class="form-textarea" placeholder="One ingredient per line..."></textarea>
+                </div>
+
+                <!-- Instructions (required) -->
+                <div class="form-group">
+                    <label class="form-label">Instructions: <span class="required">*</span></label>
+                    <textarea id="instructionsInput" class="form-textarea" placeholder="Step-by-step instructions for recipe..."></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-row">
+                    <button id="cancelBtn" class="btn-cancel">Cancel</button>
+                    <button id="saveBtn" class="btn-save">Save Recipe</button>
+                </div>
+            </div>
+
+            <!-- VIEW 3: VIEW RECIPE -->
+            <div id="viewRecipe" style="display: none;">
+                <!-- Recipe title -->
+                <h2 id="viewTitle" class="page-title"></h2>
+                <p id="viewCategory" class="category-text"></p>
+
+                <!-- Ingredients section -->
+                <div class="recipe-section">
+                    <h3 class="section-title">Ingredients:</h3>
+                    <div class="section-box">
+                        <p id="viewIngredients" class="section-content"></p>
+                    </div>
+                </div>
+
+                <!-- Instructions section -->
+                <div class="recipe-section">
+                    <h3 class="section-title">Instructions:</h3>
+                    <div class="section-box">
+                        <p id="viewInstructions" class="section-content"></p>
+                    </div>
+                </div>
+
+                <!-- Delete button -->
+                <button id="deleteBtn" class="btn-delete">Delete Recipe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRMATION -->
+    <div id="deleteModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h3 class="modal-title">Confirm Deletion</h3>
+            <p class="modal-text">Are you sure you want to delete "<span id="deleteName"></span>"?</p>
+            <div class="modal-warning">This action cannot be undone. The recipe will be permanently removed from your collection.</div>
+            <div class="button-row">
+                <button id="cancelDeleteBtn" class="btn-cancel">Cancel</button>
+                <button id="confirmDeleteBtn" class="btn-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
