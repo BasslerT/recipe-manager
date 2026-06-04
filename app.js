@@ -114,7 +114,52 @@ function showRecipeList() {
 }
 
 // ====================================
-// FUNCTION 2: SHOW ADD RECIPE FORM
+// FUNCTION 2: SEARCH RECIPES
+// ====================================
+document.getElementById('searchBtn').onclick = function() {
+    let keyword = document.getElementById('searchInput').value.trim();
+    let grid = document.getElementById('recipeGrid');
+
+    if (keyword === '') {
+        showRecipeList();
+        return;
+    }
+
+    // Send search request to search service
+    fetch('http://localhost:3001/search?name=' + encodeURIComponent(keyword))
+    .then(function(res) { return res.json(); })
+    .then(function(results) {
+        grid.innerHTML = '';
+
+        if (results.length === 0) {
+            grid.innerHTML = '<div class="empty-state">No recipes found for "' + keyword + '".</div>';
+            return;
+        }
+
+        // Display matching recipes as cards
+        results.forEach(function(item) {
+            let card = document.createElement('div');
+            card.className = 'recipe-card';
+            card.innerHTML = '<h3>' + item.name + '</h3><div class="recipe-card-hint">-Click to view-</div>';
+            card.onclick = function() {
+                showRecipeDetail(item.id);
+            };
+            grid.appendChild(card);
+        });
+    })
+    .catch(function() {
+        grid.innerHTML = '<div class="empty-state">Could not connect to search service.</div>';
+    });
+};
+
+// CLEAR search and show all recipes
+document.getElementById('clearSearchBtn').onclick = function() {
+    document.getElementById('searchInput').value = '';
+    showRecipeList();
+};
+
+// ====================================
+// FUNCTION 3: SHOW ADD RECIPE FORM
 // ====================================
 function showAddRecipeForm() {
     // Hide list, show form
@@ -138,7 +183,7 @@ document.getElementById('showAddBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 3: SAVE NEW RECIPE
+// FUNCTION 4: SAVE NEW RECIPE
 // ====================================
 document.getElementById('saveBtn').onclick = function() {
     // Get values from form
@@ -213,21 +258,21 @@ document.getElementById('saveBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 4: CANCEL BUTTON
+// FUNCTION 5: CANCEL BUTTON
 // ====================================
 document.getElementById('cancelBtn').onclick = function() {
     showRecipeList();
 };
 
 // ====================================
-// FUNCTION 5: BACK BUTTON
+// FUNCTION 6: BACK BUTTON
 // ====================================
 document.getElementById('backButton').onclick = function() {
     showRecipeList();
 };
 
 // ====================================
-// FUNCTION 6: SHOW RECIPE DETAILS
+// FUNCTION 7: SHOW RECIPE DETAILS
 // ====================================
 function showRecipeDetail(recipeId) {
     // Find the recipe with this ID
@@ -281,7 +326,7 @@ function showRecipeDetail(recipeId) {
 }
 
 // ====================================
-// FUNCTION 7: SUBMIT RATING
+// FUNCTION 8: SUBMIT RATING
 // ====================================
 document.getElementById('submitRatingBtn').onclick = function() {
     let rating = document.getElementById('ratingSelect').value;
@@ -318,7 +363,7 @@ document.getElementById('submitRatingBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 8: DELETE BUTTON CLICKED
+// FUNCTION 9: DELETE BUTTON CLICKED
 // ====================================
 document.getElementById('deleteBtn').onclick = function() {
     // Find the recipe name
@@ -338,7 +383,7 @@ document.getElementById('deleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 9: CANCEL DELETE
+// FUNCTION 10: CANCEL DELETE
 // ====================================
 document.getElementById('cancelDeleteBtn').onclick = function() {
     // Just hide the modal
@@ -346,7 +391,7 @@ document.getElementById('cancelDeleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 10: CONFIRM DELETE
+// FUNCTION 11: CONFIRM DELETE
 // ====================================
 document.getElementById('confirmDeleteBtn').onclick = function() {
     // Create a new array WITHOUT the deleted recipe
