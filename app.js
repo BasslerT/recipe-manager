@@ -8,21 +8,24 @@ let recipes = [
         name: "Spaghetti",
         category: "Dinner",
         ingredients: "1 box of spaghetti noodles\n1 lb ground beef\n1 jar tomato sauce\nFresh basil\nSalt and pepper\nParmesan cheese",
-        instructions: "Cook spaghetti noodles following package directions.\nCook ground beef.\nDrain water from noodles.\nAdd sauce to beef and simmer.\nCombine and serve."
+        instructions: "Cook spaghetti noodles following package directions.\nCook ground beef.\nDrain water from noodles.\nAdd sauce to beef and simmer.\nCombine and serve.", 
+		image: "images/spaghetti.jpg"
     },
     {
         id: 2,
         name: "Chocolate Chip Cookies",
         category: "Dessert",
         ingredients: "2 1/4 cups flour\n1 tsp baking soda\n1 cup butter\n3/4 cup sugar\n2 eggs\n2 cups chocolate chips",
-        instructions: "Preheat oven to 375°F.\nMix dry ingredients.\nCream butter and sugar.\nAdd eggs.\nMix in flour.\nAdd chocolate chips.\nBake 9-11 minutes."
+        instructions: "Preheat oven to 375°F.\nMix dry ingredients.\nCream butter and sugar.\nAdd eggs.\nMix in flour.\nAdd chocolate chips.\nBake 9-11 minutes.", 
+		image: "images/chocolate-chip-cookie.jpg"
     },
     {
         id: 3,
         name: "Banana Pancakes",
         category: "Breakfast",
         ingredients: "2 bananas\n2 eggs\n1/2 cup flour\n1/2 tsp baking powder\nPinch of salt\nMaple syrup",
-        instructions: "Mash bananas.\nAdd eggs and mix.\nAdd flour, baking powder, salt.\nCook in buttered pan.\nFlip when bubbles form.\nServe with syrup."
+        instructions: "Mash bananas.\nAdd eggs and mix.\nAdd flour, baking powder, salt.\nCook in buttered pan.\nFlip when bubbles form.\nServe with syrup.", 
+		image: "images/banana-pancakes.jpg"
     }
 ];
 
@@ -38,7 +41,7 @@ let currentRecipeId = null;
 // When the page loads, show all the recipes
 showRecipeList();
 
-// Seed search index with default recipes on load
+// Send default recipes to search and media services on load
 recipes.forEach(function(recipe) {
     fetch("http://localhost:3001/item", {
         method: "POST",
@@ -47,6 +50,15 @@ recipes.forEach(function(recipe) {
             id: recipe.id,
             name: recipe.name,
             category: recipe.category
+        })
+    });
+    fetch("http://localhost:3000/media", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            mediaId: String(recipe.id),
+            mediaPath: recipe.image,
+            mediaType: "image"
         })
     });
 });
