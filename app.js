@@ -180,6 +180,20 @@ document.getElementById('saveBtn').onclick = function() {
     // Add to recipes array
     recipes.push(newRecipe);
 
+	// Send image path to media service
+	let imagePath = document.getElementById('imageInput').value.trim();
+	if (imagePath !== '') {
+	    fetch('http://localhost:3000/media', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringify({
+	            mediaId: String(newRecipe.id),
+	            mediaPath: imagePath,
+	            mediaType: 'image'
+	        })
+	    });
+	}
+
     // Add new recipe to search index
 	fetch("http://localhost:3001/item", {
 		method: "POST",
@@ -248,6 +262,22 @@ function showRecipeDetail(recipeId) {
     document.getElementById('viewCategory').textContent = 'Category: ' + recipe.category;
     document.getElementById('viewIngredients').textContent = recipe.ingredients;
     document.getElementById('viewInstructions').textContent = recipe.instructions;
+
+	// GET image from media service
+	fetch('http://localhost:3000/media/' + recipeId)
+	.then(function(res) { return res.json(); })
+	.then(function(data) {
+	    let img = document.getElementById('viewImage');
+	    if (data.media && data.media.mediaPath) {
+	        img.src = data.media.mediaPath;
+	        img.style.display = 'block';
+	    } else {
+	        img.style.display = 'none';
+	    }
+	})
+	.catch(function() {
+	    document.getElementById('viewImage').style.display = 'none';
+	});
 }
 
 // ====================================
