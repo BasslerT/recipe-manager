@@ -375,7 +375,37 @@ document.getElementById('submitRatingBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 9: DELETE BUTTON CLICKED
+// FUNCTION 9: GENERATE SHOPPING LIST
+// ====================================
+document.getElementById('shoppingListBtn').onclick = function() {
+    let resultBox = document.getElementById('shoppingListResult');
+
+    // Find the current recipe
+    let recipe = null;
+    for (let i = 0; i < recipes.length; i++) {
+        if (recipes[i].id === currentRecipeId) {
+            recipe = recipes[i];
+            break;
+        }
+    }
+
+    // Send recipe to shopping list service
+    fetch('http://localhost:3003/shopping-list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipes: [recipe] })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        resultBox.textContent = 'Shopping list: ' + data.items.join(', ');
+    })
+    .catch(function() {
+        resultBox.textContent = 'Could not connect to shopping list service.';
+    });
+};
+
+// ====================================
+// FUNCTION 10: DELETE BUTTON CLICKED
 // ====================================
 document.getElementById('deleteBtn').onclick = function() {
     // Find the recipe name
@@ -395,7 +425,7 @@ document.getElementById('deleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 10: CANCEL DELETE
+// FUNCTION 11: CANCEL DELETE
 // ====================================
 document.getElementById('cancelDeleteBtn').onclick = function() {
     // Just hide the modal
@@ -403,7 +433,7 @@ document.getElementById('cancelDeleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 11: CONFIRM DELETE
+// FUNCTION 12: CONFIRM DELETE
 // ====================================
 document.getElementById('confirmDeleteBtn').onclick = function() {
     // Create a new array WITHOUT the deleted recipe
