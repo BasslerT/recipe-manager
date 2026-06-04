@@ -38,6 +38,19 @@ let currentRecipeId = null;
 // When the page loads, show all the recipes
 showRecipeList();
 
+// Seed search index with default recipes on load
+recipes.forEach(function(recipe) {
+    fetch("http://localhost:3001/item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id: recipe.id,
+            name: recipe.name,
+            category: recipe.category
+        })
+    });
+});
+
 // ====================================
 // BROWSER BACK BUTTON SUPPORT
 // ====================================
@@ -166,6 +179,17 @@ document.getElementById('saveBtn').onclick = function() {
     
     // Add to recipes array
     recipes.push(newRecipe);
+
+    // Add new recipe to search index
+	fetch("http://localhost:3001/item", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			id: newRecipe.id,
+			name: newRecipe.name,
+			category: newRecipe.category
+		})
+	});
     
     // Increment ID for next recipe
     nextId = nextId + 1;
