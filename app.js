@@ -251,7 +251,44 @@ function showRecipeDetail(recipeId) {
 }
 
 // ====================================
-// FUNCTION 7: DELETE BUTTON CLICKED
+// FUNCTION 7: SUBMIT RATING
+// ====================================
+document.getElementById('submitRatingBtn').onclick = function() {
+    let rating = document.getElementById('ratingSelect').value;
+    let resultBox = document.getElementById('ratingResult');
+
+    // CHECK: did they select a rating?
+    if (rating === '') {
+        resultBox.textContent = 'Please select a rating.';
+        return;
+    }
+
+    // SUBMIT rating to rating service
+    fetch('http://localhost:3000/ratings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userId: 1,
+            itemId: currentRecipeId,
+            rating: parseInt(rating)
+        })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        // GET updated average after submitting
+        return fetch('http://localhost:3000/ratings/average/' + currentRecipeId);
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        resultBox.textContent = 'Average: ' + data.average + '/5 (' + data.count + ' ratings)';
+    })
+    .catch(function() {
+        resultBox.textContent = 'Could not connect to rating service.';
+    });
+};
+
+// ====================================
+// FUNCTION 8: DELETE BUTTON CLICKED
 // ====================================
 document.getElementById('deleteBtn').onclick = function() {
     // Find the recipe name
@@ -271,7 +308,7 @@ document.getElementById('deleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 8: CANCEL DELETE
+// FUNCTION 9: CANCEL DELETE
 // ====================================
 document.getElementById('cancelDeleteBtn').onclick = function() {
     // Just hide the modal
@@ -279,7 +316,7 @@ document.getElementById('cancelDeleteBtn').onclick = function() {
 };
 
 // ====================================
-// FUNCTION 9: CONFIRM DELETE
+// FUNCTION 10: CONFIRM DELETE
 // ====================================
 document.getElementById('confirmDeleteBtn').onclick = function() {
     // Create a new array WITHOUT the deleted recipe
