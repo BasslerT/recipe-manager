@@ -93,6 +93,23 @@
                     </div>
                 </div>
 
+                <!-- Rating section -->
+                <div class="recipe-section">
+                    <h3 class="section-title">Rate this Recipe:</h3>
+                    <div class="section-box">
+                        <select id="ratingSelect" class="form-select" style="width: auto;">
+                            <option value="">-- Select --</option>
+                            <option value="1">1 - Poor</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="3">3 - Good</option>
+                            <option value="4">4 - Great</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
+                        <button id="submitRatingBtn" class="btn-save" style="width: auto; margin-top: 10px;">Submit Rating</button>
+                        <p id="ratingResult" style="margin-top: 10px; color: #666;"></p>
+                    </div>
+                </div>
+                
                 <!-- Delete button -->
                 <button id="deleteBtn" class="btn-delete">Delete Recipe</button>
             </div>
