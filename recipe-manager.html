@@ -64,6 +64,12 @@
                     <textarea id="instructionsInput" class="form-textarea" placeholder="Step-by-step instructions for recipe..."></textarea>
                 </div>
 
+                <!-- Image path -->
+                <div class="form-group">
+                    <label class="form-label">Image:</label>
+                    <input type="text" id="imageInput" class="form-input" placeholder="e.g. images/spaghetti.jpg">
+                </div>
+                
                 <!-- Buttons -->
                 <div class="button-row">
                     <button id="cancelBtn" class="btn-cancel">Cancel</button>
@@ -76,6 +82,9 @@
                 <!-- Recipe title -->
                 <h2 id="viewTitle" class="page-title"></h2>
                 <p id="viewCategory" class="category-text"></p>
+
+                <!-- Recipe image -->
+                <img id="viewImage" src="" style="display: none; max-width: 100%; border-radius: 8px; margin-bottom: 20px;">
 
                 <!-- Ingredients section -->
                 <div class="recipe-section">
